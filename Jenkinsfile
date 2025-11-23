@@ -27,7 +27,7 @@ stage('Run in Docker Desktop') {
             docker stop %%i
             docker rm %%i
         )
-        docker run -d --name spring-boot-app -p  %DOCKER_IMAGE%:%BUILD_NUMBER%
+        docker run -d --name spring-boot-app -p  7070:7070 %DOCKER_IMAGE%:%BUILD_NUMBER%
         '''
     }
 }
