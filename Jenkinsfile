@@ -19,16 +19,16 @@ pipeline {
             }
         }
 stage('Run in Docker Desktop') {
-            steps {
-                // Stop old container if running
-                bat '''
-                for /f "tokens=*" %%i in ('docker ps -q --filter "name=spring-boot-app"') do docker stop %%i && docker rm %%i
-                '''
-                // Run new container
-                bat "docker run -d --name spring-boot-app -p 8080:8080 %DOCKER_IMAGE%:%BUILD_NUMBER%"
-            }
-        }
+    steps {
+        bat '''
+        for /f "tokens=*" %%i in ('docker ps -q --filter "name=spring-boot-app"') do (
+            docker stop %%i
+            docker rm %%i
+        )
+        docker run -d --name spring-boot-app -p 8080:8080 %DOCKER_IMAGE%:%BUILD_NUMBER%
+        '''
     }
+}
 
     post {
         success {
