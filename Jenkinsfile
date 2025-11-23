@@ -3,21 +3,37 @@ pipeline {
     tools {
         maven 'Maven3'   // matches the name in Global Tool Config
     }
+    environment {
+        DOCKER_IMAGE = "spring-boot-app"
+    }
+
     stages {
         stage('Build') {
             steps {
-                bat 'mvn clean install'
+                bat 'mvn clean package -DskipTests'
             }
         }
-        stage('Test') {
+        stage('Build Docker Image') {
             steps {
-                bat 'mvn test'
+                bat "docker build -t %DOCKER_IMAGE%:%BUILD_NUMBER% ."
             }
         }
-        stage('Deploy') {
+stage('Run in Docker Desktop') {
             steps {
-                bat 'scp target/demoCICD-0.0.1-SNAPSHOT.war C:\\JavaProject\\MyWorkSpace\\Deployment'
+                // Stop old container if running
+                bat '''
+                for /f "tokens=*" %%i in ('docker ps -q --filter "name=spring-boot-app"') do docker stop %%i && docker rm %%i
+                '''
+                // Run new container
+                bat "docker run -d --name spring-boot-app -p 8080:8080 %DOCKER_IMAGE%:%BUILD_NUMBER%"
             }
         }
     }
+
+    post {
+        success {
+            echo "Spring Boot app is running locally in Docker Desktop (Windows)!"
+        }
+    }
+
 }
