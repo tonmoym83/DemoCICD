@@ -1,4 +1,4 @@
-FROM tomcat:9.0-jdk17
+FROM tomcat:10.1-jdk21
 COPY spring-boot-app.war /usr/local/tomcat/webapps/
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+CMD ["catalina.bat", "run"]
