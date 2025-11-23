@@ -1,5 +1,8 @@
 pipeline {
     agent any
+tools {
+        maven 'Maven3'   // matches the name in Global Tool Config
+    }
 
     environment {
         IMAGE_NAME = "spring-boot-app"
