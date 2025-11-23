@@ -13,11 +13,13 @@ pipeline {
                 bat 'mvn clean package -DskipTests'
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 bat "docker build -t %DOCKER_IMAGE%:%BUILD_NUMBER% ."
             }
         }
+
 stage('Run in Docker Desktop') {
     steps {
         bat '''
@@ -29,7 +31,7 @@ stage('Run in Docker Desktop') {
         '''
     }
 }
-
+    }
     post {
         success {
             echo "Spring Boot app is running locally in Docker Desktop (Windows)!"
