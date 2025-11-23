@@ -13,6 +13,12 @@ pipeline {
                 bat 'mvn clean package -DskipTests'
             }
         }
+stage('Prepare WAR for Docker') {
+    steps {
+        // Copy WAR into root of build context
+        bat 'copy target\\demoCICD-0.0.1-SNAPSHOT.war .'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
