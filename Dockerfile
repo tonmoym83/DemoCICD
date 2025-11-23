@@ -1,4 +1,4 @@
 FROM tomcat:10.1-jdk21
-COPY spring-boot-app.war /usr/local/tomcat/webapps/
+COPY demoCICD-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 EXPOSE 8080
 CMD ["catalina.bat", "run"]
